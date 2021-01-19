@@ -1,0 +1,30 @@
+apiVersion: 2019-12-01
+location: westeurope
+name: az-mock-proxy
+properties:
+  imageRegistryCredentials:
+  - server: _ACR_NAME_.azurecr.io
+    username: _ACR_NAME_
+    password: _ACR_PASSWD_
+  containers:
+  - name: nodedep-dependency
+    properties:
+      image: _ACR_NAME_.azurecr.io/az-mock-proxy:1
+      resources:
+        requests:
+          cpu: 0.5
+          memoryInGb: 0.5
+      ports:
+      - port: 3000
+      environmentVariables:
+      - name: MOCK_DELAY
+        value: 100
+  osType: Linux
+  ipAddress:
+    type: Public
+    ports:
+    - protocol: tcp
+      port: 3000
+    dnsNameLabel: az-mock-proxy
+tags: null
+type: Microsoft.ContainerInstance/containerGroups
